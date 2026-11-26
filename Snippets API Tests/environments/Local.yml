@@ -1,0 +1,12 @@
+name: Local
+variables:
+  - name: base_url
+    value: http://127.0.0.1:8000/api
+  - name: username
+    value: admin
+  - name: password
+    value: admin
+  - name: snippet_id
+    value:
+      type: number
+      data: "3"

@@ -1,0 +1,45 @@
+info:
+  name: 1. Create Snippet
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/snippets/"
+  body:
+    type: json
+    data: |-
+      {
+          "title": "Bruno Test Snippet",
+          "code": "print('Hello from Bruno!')",
+          "language": "python",
+          "linenos": true
+      }
+  auth:
+    type: basic
+    username: "{{username}}"
+    password: "{{password}}"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Status code is 201 Created", function() {
+          expect(res.getStatus()).to.equal(201);
+        });
+
+        test("Response has valid fields and owner", function() {
+          const data = res.getBody();
+          expect(data).to.be.an('object');
+          expect(data.title).to.equal("Bruno Test Snippet");
+          expect(data.owner).to.equal(bru.getEnvVar("username"));
+
+          bru.setEnvVar("snippet_id", data.id);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

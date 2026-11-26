@@ -1,0 +1,27 @@
+info:
+  name: 4. Delete Snippet
+  type: http
+  seq: 4
+
+http:
+  method: DELETE
+  url: "{{base_url}}/snippets/{{snippet_id}}/"
+  auth:
+    type: basic
+    username: "{{username}}"
+    password: "{{password}}"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Status code is 204 No Content", function() {
+          expect(res.getStatus()).to.equal(204);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

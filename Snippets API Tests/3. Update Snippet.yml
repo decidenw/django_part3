@@ -1,0 +1,38 @@
+info:
+  name: 3. Update Snippet
+  type: http
+  seq: 3
+
+http:
+  method: PATCH
+  url: "{{base_url}}/snippets/{{snippet_id}}/"
+  body:
+    type: json
+    data: |-
+      {
+          "title": "Updated by Bruno"
+      }
+  auth:
+    type: basic
+    username: "{{username}}"
+    password: "{{password}}"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Status code is 200 OK", function() {
+          expect(res.getStatus()).to.equal(200);
+        });
+
+        test("Title was successfully updated", function() {
+          const data = res.getBody();
+          expect(data.title).to.equal("Updated by Bruno");
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
